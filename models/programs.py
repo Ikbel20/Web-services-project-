@@ -4,7 +4,7 @@ class programsModel(db.Model):
 
     __tablename__='programs'  
  
-
+#"ggg"
     id = db.Column(db.Integer, primary_key=True) 
     name = db.Column(db.String(300))   
     university= db.Column(db.String, db.ForeignKey('universities.Name')) 
