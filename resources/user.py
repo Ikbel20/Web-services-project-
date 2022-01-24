@@ -1,6 +1,7 @@
 import sqlite3
 from flask_restful import Resource, reqparse
 from sqlalchemy.sql import select
+from flask_jwt import jwt_required
 
 import os,sys
 dir_path=os.path.dirname(os.path.realpath(__file__))
@@ -18,7 +19,8 @@ class UserRegister(Resource):
    # parser.add_argument('id', type=int, required= True, help="This field cannot be left blank!")
     parser.add_argument('username', type=str, required= True, help="This field cannot be left blank!")
     parser.add_argument('password', type=str, required= True, help="This field cannot be left blank!")
-    
+
+    @jwt_required()
     def post(self,id):
         data=UserRegister.parser.parse_args()
         
@@ -32,4 +34,3 @@ class UserRegister(Resource):
         user = UserModel(id,data['username'],data['password'])
         user.save_to_db()
         return{"message": "User created successfully."}, 201
- 

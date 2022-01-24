@@ -33,6 +33,7 @@ api.add_resource(programsList, '/programs')
 api.add_resource(universitiesList, '/universities') 
 api.add_resource(UserRegister, '/register/<int:id>')
 api.add_resource(programsUnivList, '/programs/<string:prog>')
+ 
 
 
 if __name__ == '__main__':
