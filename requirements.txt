@@ -1,4 +1,4 @@
-git+git://github.com/ericvsmith/dataclasses@0.8#dataclasses
+git+git://github.com/ericvsmith/dataclasses@0.6#dataclasses
 aniso8601==8.0.0
 backcall==0.2.0
 backports.entry-points-selectable==1.1.1
