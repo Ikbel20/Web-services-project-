@@ -6,16 +6,21 @@ class UserModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True) 
     username = db.Column(db.String(80))   
-    password = db.Column(db.String(80)) 
+    password = db.Column(db.String(80))
+    email  = db.Column(db.String(80))  
 
-    def __init__(self,id, username, password): 
-        self.id = id  
+    def __init__(self, username, password,email): 
+        
         self.username = username
         self.password = password
+        self.email = email
 
     def save_to_db(self): 
         db.session.add(self)
         db.session.commit()
+    def json(self):
+        return{'username':self.username, 'password':self.password,'email':self.email}
+
         
     @classmethod
     def find_by_username(cls, username):
@@ -24,3 +29,7 @@ class UserModel(db.Model):
     @classmethod
     def find_by_id(cls, _id):
         return cls.query.filter_by(id=_id).first()
+
+    @classmethod
+    def find_by_email(cls, _email):
+        return cls.query.filter_by(email=_email).first()

@@ -49,7 +49,7 @@ class programs(Resource):
     @jwt_required()
     def post(self,un, name):
         if programsModel.find_by_name(name)and universitiesModel.find_by_name(un):
-            return {'message': "A program in this university with name '{}' already exists.".format(name)}
+            return {'message': "A program in this university with name '{}' already exists.".format(name)},409 # resource already exist
         if not  universitiesModel.find_by_name(un):
             return {'message': "no university was found with this name  '{}' .".format(un)},404
 
@@ -97,6 +97,9 @@ class programs(Resource):
         if (prog is None )and (ik  is  not None): # universiy is found but program not found we create a program in this university 
          
             prog = programsModel(name,un, **data)
+            prog.save_to_db()
+            return {'message': 'university created successfully, here are the  corrdinates {}'.format(prog.json())},201
+          
            
         if (prog is not None) and (un == prog.university):
             prog.length = data['length']
@@ -104,11 +107,8 @@ class programs(Resource):
             prog.place = data['place']
             prog.grad = data['grad']
 
-
-
-
-        prog.save_to_db()
-        return {'message': 'university updated successfully, here are the new corrdinates {}'.format(prog.json())},200
+            prog.save_to_db()
+            return {'message': 'university updated successfully, here are the new corrdinates {}'.format(prog.json())},200
           
 
 class programsList(Resource):

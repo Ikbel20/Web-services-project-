@@ -6,10 +6,9 @@ import secrets
 from flask_sqlalchemy import SQLAlchemy
 from resources.user import UserRegister
 from resources.programs import programs, programsList,programsUnivList
-from resources.universities import universities, universitiesList
+from resources.universities import universities, universitiesList, changeWebsite
 from security import authenticate, identity
 import os
-import django_heroku
 
 app = Flask(__name__)
  # Connecting to MySQL server at localhost using PyMySQL DBAPI
@@ -29,10 +28,10 @@ jwt = JWT(app, authenticate, identity)
 api.add_resource(universities, '/universities/<string:name>') 
 
 api.add_resource(programs, '/programs/<string:un>/<string:name>')
-#api.add_resource(programs, '/programs/<string:name>')
+api.add_resource(changeWebsite, '/changeWebsite/<string:name>')
 api.add_resource(programsList, '/programs')
 api.add_resource(universitiesList, '/universities') 
-api.add_resource(UserRegister, '/register/<int:id>')
+api.add_resource(UserRegister, '/register')
 api.add_resource(programsUnivList, '/programs/<string:prog>')
  
 
@@ -42,5 +41,3 @@ if __name__ == '__main__':
     db.init_app(app)  
     app.run(debug=True)  
 
-
-django_heroku.settings(locals()) 

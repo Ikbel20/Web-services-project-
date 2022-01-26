@@ -21,7 +21,7 @@ class universities(Resource):
     def post(self, name):
         data = universities.parser.parse_args()
         if universitiesModel.find_by_name(name):
-            return {'message': "A university with id '{}' already exists.".format(name)}, 400
+            return {'message': "A university with name '{}' already exists.".format(name)}, 400
         uni = universitiesModel(name,**(data))
         uni.save_to_db()
         return uni.json(), 201
@@ -41,7 +41,10 @@ class universities(Resource):
 
         if uni is None:
             uni = universitiesModel(name, **data)
-            print ("ggg")
+            uni.save_to_db()
+            return {'message': 'university created successfully, here are the  coordinates {}'.format(uni.json())},201
+
+            
         else:
             uni.Location = data['Location']
             uni.Public = data['Public']
@@ -49,10 +52,31 @@ class universities(Resource):
             uni.Website = data['Website']
 
 
-        uni.save_to_db()
-        return {'message': 'university updated successfully, here are the new corrdinates {}'.format(uni.json())},200
+            uni.save_to_db()
+            return {'message': 'university updated successfully, here are the new coordinates {}'.format(uni.json())},200
           
     
 class universitiesList(Resource):
     def get(self):
         return {'universities': list(map(lambda x: x.json(), universitiesModel.query.all()))}   
+
+class changeWebsite(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument('Website', type=str, required= True, help="This field cannot be left blank!")
+    @jwt_required()
+    def patch(self,name):
+        TABLE_NAME='universities'
+        data = changeWebsite.parser.parse_args()
+        uni = universitiesModel.find_by_name(name)
+
+        if uni is None:
+             return {'message': "No university  was found with the name '{}'.".format(name)}, 404
+        uni.Website = data['Website']
+        uni.save_to_db()
+        return {'message': 'university  website updated successfully'},200
+          
+
+
+
+     
+
