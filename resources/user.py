@@ -34,3 +34,8 @@ class UserRegister(Resource):
         user = UserModel(id,data['username'],data['password'])
         user.save_to_db()
         return{"message": "User created successfully."}, 201
+    
+    def patch(self,id):
+        
+
+

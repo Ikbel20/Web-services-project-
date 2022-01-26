@@ -8,7 +8,8 @@ from resources.user import UserRegister
 from resources.programs import programs, programsList,programsUnivList
 from resources.universities import universities, universitiesList
 from security import authenticate, identity
-
+import os
+import django_heroku
 
 app = Flask(__name__)
  # Connecting to MySQL server at localhost using PyMySQL DBAPI
@@ -40,3 +41,6 @@ if __name__ == '__main__':
     from db import db
     db.init_app(app)  
     app.run(debug=True)  
+
+
+django_heroku.settings(locals()) 
