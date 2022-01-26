@@ -10,7 +10,7 @@ class universities(Resource):
     parser.add_argument('University', type=str, required= True, help="This field cannot be left blank!")
     parser.add_argument('Public', type=bool, required= True, help="This field cannot be left blank!")
     parser.add_argument('Website', type=str, required= True, help="This field cannot be left blank!")
-     
+
     def get(self, name):
         uni = universitiesModel.find_by_name(name)
         if uni:
