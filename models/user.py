@@ -19,7 +19,7 @@ class UserModel(db.Model):
         db.session.add(self)
         db.session.commit()
     def json(self):
-        return{'username':self.username, 'password':self.password,'email':self.email}
+        return{'username':self.username, 'email':self.email}
 
         
     @classmethod
